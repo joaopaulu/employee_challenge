@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.time.Instant;
 
+import static br.com.basis.employee.constant.ExceptionConstants.*;
+
 @ControllerAdvice
 public class ResourceExceptionHandler {
 
@@ -21,7 +23,7 @@ public class ResourceExceptionHandler {
         StandardError err = new StandardError();
         err.setTimestamp(Instant.now());
         err.setStatus(status.value());
-        err.setError("Resource Not Found");
+        err.setError(RESOURCE_NOT_FOUND);
         err.setMessage(e.getMessage());
         err.setPath(request.getRequestURI());
         return ResponseEntity.status(status).body(err);
@@ -33,7 +35,7 @@ public class ResourceExceptionHandler {
         StandardError err = new StandardError();
         err.setTimestamp(Instant.now());
         err.setStatus(status.value());
-        err.setError("Database exception");
+        err.setError(DB_EXCEPTION);
         err.setMessage(e.getMessage());
         err.setPath(request.getRequestURI());
         return ResponseEntity.status(status).body(err);
@@ -45,7 +47,7 @@ public class ResourceExceptionHandler {
         ValidationError err = new ValidationError();
         err.setTimestamp(Instant.now());
         err.setStatus(status.value());
-        err.setError("Validation exception");
+        err.setError(VALID_EXCEPTION);
         err.setMessage(e.getMessage());
         err.setPath(request.getRequestURI());
 

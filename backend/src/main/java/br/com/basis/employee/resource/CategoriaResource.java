@@ -51,7 +51,6 @@ public class CategoriaResource {
         if (!categoriaRepository.existsById(id)) {
             return ResponseEntity.notFound().build();
         }
-
         categoriaService.delete(id);
         return ResponseEntity.noContent().build();
     }

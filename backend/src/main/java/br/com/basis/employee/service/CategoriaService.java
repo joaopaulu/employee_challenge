@@ -3,6 +3,7 @@ package br.com.basis.employee.service;
 import br.com.basis.employee.domain.dto.CategoriaDTO;
 import br.com.basis.employee.domain.model.Categoria;
 import br.com.basis.employee.repository.CategoriaRepository;
+import br.com.basis.employee.service.exception.DataBaseException;
 import br.com.basis.employee.service.exception.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -10,12 +11,12 @@ import lombok.AllArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
-import org.springframework.stereotype.Service;
-import br.com.basis.employee.service.exception.DataBaseException;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+import static br.com.basis.employee.constant.CategoriaConstants.*;
 
 @Service
 @AllArgsConstructor
@@ -32,7 +33,7 @@ public class CategoriaService {
     @Transactional
     public CategoriaDTO findById(Long id) {
         Optional<Categoria> obj = categoriaRepository.findById(id);
-        Categoria entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
+        Categoria entity = obj.orElseThrow(() -> new ResourceNotFoundException(ENTITY_NOT_FOUND));
         return new CategoriaDTO(entity);
     }
 
@@ -52,7 +53,7 @@ public class CategoriaService {
             entity = categoriaRepository.save(entity);
             return new CategoriaDTO(entity);
         } catch (EntityNotFoundException e) {
-            throw new ResourceNotFoundException("ID not found " + id);
+            throw new ResourceNotFoundException(ID_NOT_FOUND + id);
         }
     }
 
@@ -61,9 +62,9 @@ public class CategoriaService {
         try {
             categoriaRepository.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
-            throw new ResourceNotFoundException("Id not found " + id);
+            throw new ResourceNotFoundException(ID_NOT_FOUND + id);
         } catch (DataIntegrityViolationException e) {
-            throw new DataBaseException("Integrity violation");
+            throw new DataBaseException(INTEGRITY_VIOLATION);
         }
     }
 }
