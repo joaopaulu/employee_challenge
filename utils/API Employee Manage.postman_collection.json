@@ -13,7 +13,17 @@
 					"name": "Listar Categorias",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/categories",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"categories"
+							]
+						}
 					},
 					"response": []
 				},
@@ -24,7 +34,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"descricao\": \"Freelancer\"\r\n}",
+							"raw": "{\r\n    \"descricao\": \"Estagiário Médio\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -32,11 +42,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/categories",
+							"raw": "{{host}}/api/categories",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
+								"api",
 								"categories"
 							]
 						}
@@ -50,7 +61,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"descricao\": \"Categoria de teste\"\r\n}",
+							"raw": "{\r\n    \"descricao\": \"Jovem Aprendiz teste\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -58,13 +69,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/categories/5",
+							"raw": "{{host}}/api/categories/7",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
+								"api",
 								"categories",
-								"5"
+								"7"
 							]
 						}
 					},
@@ -88,11 +100,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/categories/5",
+							"raw": "{{host}}/api/categories/5",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
+								"api",
 								"categories",
 								"5"
 							]
@@ -113,6 +126,144 @@
 							"path": [
 								"categories",
 								"5"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Servidores",
+			"item": [
+				{
+					"name": "Listar Servidores",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/servidores?matricula=789&nome=Ci",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"servidores"
+							],
+							"query": [
+								{
+									"key": "matricula",
+									"value": "789"
+								},
+								{
+									"key": "nome",
+									"value": "Ci"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar um Servidor",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"descricao\": \"Categoria de teste\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/servidores/11",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"servidores",
+								"11"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Inserir Servidor",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \r\n    \"nome\": \"Chico\",\r\n    \"matricula\": \"444552\",\r\n    \"lotacao\": \"TI\",\r\n    \"foto\": \"foto99.jpg\",\r\n    \"categoria\": {\r\n        \"id\": 3\r\n        \r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/servidores",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"servidores"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Alterar Servidor",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 11,\r\n    \"nome\": \"João Paulo\",\r\n    \"matricula\": \"1111088579\",\r\n    \"lotacao\": \"DTI\",\r\n    \"foto\": \"foto4.jpg\",\r\n    \"categoria\": {\r\n        \"id\": 3        \r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/servidores/11",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"servidores",
+								"11"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deletar Servidor",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/servidores/12",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"servidores",
+								"12"
 							]
 						}
 					},
