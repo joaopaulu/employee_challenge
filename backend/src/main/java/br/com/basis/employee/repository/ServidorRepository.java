@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 public interface ServidorRepository extends JpaRepository<Servidor, Long> {
 
     @Query("SELECT DISTINCT obj FROM Servidor obj WHERE "
-            + "(LOWER(obj.nome) LIKE LOWER(CONCAT('%',:nome,'%'))) ")
-    Page<Servidor> find(String nome, Pageable pageable);
+            + "(LOWER(obj.nome) LIKE LOWER(CONCAT('%',:nome,'%'))) AND "
+            + "(LOWER(obj.matricula) LIKE CONCAT('%',:matricula,'%')) ")
+    Page<Servidor> find(String nome, int matricula, Pageable pageable);
 }

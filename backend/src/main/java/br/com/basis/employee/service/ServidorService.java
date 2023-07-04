@@ -18,7 +18,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static br.com.basis.employee.constant.ServidorConstants.*;
 
@@ -29,10 +28,10 @@ public class ServidorService {
     private final ServidorRepository servidorRepository;
 
     @Transactional
-    public Page<ServidorDTO> findAllPaged(String nome, Pageable pageable){
-        Page<Servidor> list = servidorRepository.find(nome, pageable);
+    public Page<ServidorDTO> findAllPaged(String nome, int matricula, Pageable pageable){
+        Page<Servidor> list = servidorRepository.find(nome, matricula, pageable);
         var listConvert = Mapper.factory(ServidorMapper.class).entityToDtoList(list.toList());
-        return new PageImpl<ServidorDTO>(listConvert, list.getPageable(), list.getTotalElements());
+        return new PageImpl<>(listConvert, list.getPageable(), list.getTotalElements());
     }
 
     @Transactional

@@ -1,13 +1,10 @@
 package br.com.basis.employee.resource;
 
 import br.com.basis.employee.domain.dto.ServidorDTO;
-import br.com.basis.employee.repository.CategoriaRepository;
 import br.com.basis.employee.repository.ServidorRepository;
 import br.com.basis.employee.service.ServidorService;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,8 +23,9 @@ public class ServidorResource {
     @GetMapping
     public ResponseEntity<Page<ServidorDTO>> findAll(
             @RequestParam(value = "nome", defaultValue = "") String nome,
+            @RequestParam(value = "matricula", defaultValue = "") int matricula,
             Pageable pageable) {
-        Page<ServidorDTO> list = servidorService.findAllPaged(nome, pageable);
+        Page<ServidorDTO> list = servidorService.findAllPaged(nome, matricula, pageable);
         return ResponseEntity.ok().body(list);
     }
 
