@@ -1,6 +1,8 @@
 package br.com.basis.employee.service;
 
+import br.com.basis.employee.config.Mapper;
 import br.com.basis.employee.domain.dto.CategoriaDTO;
+import br.com.basis.employee.domain.mappers.CategoriaMapper;
 import br.com.basis.employee.domain.model.Categoria;
 import br.com.basis.employee.repository.CategoriaRepository;
 import br.com.basis.employee.service.exception.DataBaseException;
@@ -39,8 +41,7 @@ public class CategoriaService {
 
     @Transactional
     public CategoriaDTO insert(CategoriaDTO dto) {
-        Categoria entity = new Categoria();
-        entity.setDescricao(dto.getDescricao());
+        Categoria entity = Mapper.factory(CategoriaMapper.class).dtoToEntity(dto);
         entity = categoriaRepository.save(entity);
         return new CategoriaDTO(entity);
     }
@@ -48,8 +49,7 @@ public class CategoriaService {
     @Transactional
     public CategoriaDTO update(Long id, CategoriaDTO dto) {
         try {
-            Categoria entity = categoriaRepository.getOne(id);
-            entity.setDescricao(dto.getDescricao());
+            Categoria entity = Mapper.factory(CategoriaMapper.class).dtoToEntity(dto);
             entity = categoriaRepository.save(entity);
             return new CategoriaDTO(entity);
         } catch (EntityNotFoundException e) {
