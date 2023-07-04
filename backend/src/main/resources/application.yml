@@ -18,3 +18,9 @@ spring:
     init:
       mode: never
       continue-on-error: false
+  # OpenApi configuration
+  springdoc:
+    api-docs:
+      path: /employee-docs
+    swagger-ui:
+      path: /swagger-ui.html

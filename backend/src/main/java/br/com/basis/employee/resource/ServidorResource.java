@@ -3,6 +3,8 @@ package br.com.basis.employee.resource;
 import br.com.basis.employee.domain.dto.ServidorDTO;
 import br.com.basis.employee.repository.ServidorRepository;
 import br.com.basis.employee.service.ServidorService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,11 +21,13 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(value = "api/servidores")
+@Tag(name = "Servidores")
 public class ServidorResource {
 
     private final ServidorService servidorService;
     private final ServidorRepository servidorRepository;
 
+    @Operation(summary = "Listar todas as Servidores")
     @GetMapping
     public ResponseEntity<Page<ServidorDTO>> findAll(
             @RequestParam(value = "nome", defaultValue = "") String nome,
@@ -33,12 +37,14 @@ public class ServidorResource {
         return ResponseEntity.ok().body(list);
     }
 
+    @Operation(summary = "Listar um Servidor")
     @GetMapping(value = "/{id}")
     public ResponseEntity<ServidorDTO> findById(@PathVariable Long id) {
         ServidorDTO dto =  servidorService.findById(id);
         return ResponseEntity.ok().body(dto);
     }
 
+    @Operation(summary = "Inserir um Servidor")
     @PostMapping
     public ResponseEntity<ServidorDTO> insert(@RequestBody ServidorDTO dto) {
         dto =  servidorService.insert(dto);
@@ -47,12 +53,14 @@ public class ServidorResource {
         return ResponseEntity.created(uri).body(dto);
     }
 
+    @Operation(summary = "Atualizar um Servidore")
     @PutMapping(value = "/{id}")
     public ResponseEntity<ServidorDTO> update(@PathVariable Long id, @RequestBody ServidorDTO dto) {
         dto =  servidorService.update(id, dto);
         return ResponseEntity.ok().body(dto);
     }
 
+    @Operation(summary = "Deletar um Servidor")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<ServidorDTO> delete(@PathVariable Long id) {
         if (!servidorRepository.existsById(id)) {
@@ -62,6 +70,7 @@ public class ServidorResource {
         return ResponseEntity.noContent().build();
     }
 
+    @Operation(summary = "Deletar varios Servidores")
     @DeleteMapping("/varios")
     public ResponseEntity<String> excluirItensEmBloco(@RequestBody List<Long> ids) {
         if (servidorService.verificarItensExistentes(ids)) {
