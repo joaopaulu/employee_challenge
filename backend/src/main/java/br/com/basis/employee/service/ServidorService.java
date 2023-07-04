@@ -17,9 +17,12 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
-import static br.com.basis.employee.constant.ServidorConstants.*;
+import static br.com.basis.employee.constant.CategoriaConstants.ID_NOT_FOUND;
+import static br.com.basis.employee.constant.ServidorConstants.ENTITY_NOT_FOUND;
+import static br.com.basis.employee.constant.ServidorConstants.INTEGRITY_VIOLATION;
 
 @Service
 @AllArgsConstructor
@@ -28,7 +31,7 @@ public class ServidorService {
     private final ServidorRepository servidorRepository;
 
     @Transactional
-    public Page<ServidorDTO> findAllPaged(String nome, int matricula, Pageable pageable){
+    public Page<ServidorDTO> findAllPaged(String nome, String matricula, Pageable pageable) {
         Page<Servidor> list = servidorRepository.find(nome, matricula, pageable);
         var listConvert = Mapper.factory(ServidorMapper.class).entityToDtoList(list.toList());
         return new PageImpl<>(listConvert, list.getPageable(), list.getTotalElements());
@@ -43,15 +46,17 @@ public class ServidorService {
 
     @Transactional
     public ServidorDTO insert(ServidorDTO dto) {
-        Servidor entity = Mapper.factory(ServidorMapper.class).dtoToEntity(dto);
+        Servidor entity = new Servidor();
+        copyDtoEntity(dto, entity);
         entity = servidorRepository.save(entity);
-        return new ServidorDTO(entity);
+        return Mapper.factory(ServidorMapper.class).entityToDto(entity);
     }
 
     @Transactional
     public ServidorDTO update(Long id, ServidorDTO dto) {
         try {
-            Servidor entity = Mapper.factory(ServidorMapper.class).dtoToEntity(dto);
+            Servidor entity = servidorRepository.getReferenceById(id);
+            copyDtoEntity(dto, entity);
             entity = servidorRepository.save(entity);
             return new ServidorDTO(entity);
         } catch (EntityNotFoundException e) {
@@ -68,6 +73,30 @@ public class ServidorService {
         } catch (DataIntegrityViolationException e) {
             throw new DataBaseException(INTEGRITY_VIOLATION);
         }
+    }
+
+    @Transactional
+    public void excluirItensEmBloco(List<Long> ids) {
+        try {
+            servidorRepository.deleteAllById(ids);
+        } catch (EmptyResultDataAccessException e) {
+            throw new ResourceNotFoundException(ID_NOT_FOUND + ids);
+        } catch (DataIntegrityViolationException e) {
+            throw new DataBaseException(INTEGRITY_VIOLATION);
+        }
+    }
+
+    public boolean verificarItensExistentes(List<Long> ids) {
+        return servidorRepository.existsAnyByIdIn(ids);
+    }
+
+    private void copyDtoEntity(ServidorDTO dto, Servidor entity) {
+        entity.setNome(dto.getNome());
+        entity.setMatricula(dto.getMatricula());
+        entity.setLotacao(dto.getLotacao());
+        entity.setFoto(dto.getFoto());
+        entity.setCategoria(dto.getCategoria());
+
     }
 
 }

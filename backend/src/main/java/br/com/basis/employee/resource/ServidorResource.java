@@ -11,10 +11,14 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
+
+import static br.com.basis.employee.constant.ServidorConstants.*;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = "/servidores")
+@RequestMapping(value = "api/servidores")
 public class ServidorResource {
 
     private final ServidorService servidorService;
@@ -23,7 +27,7 @@ public class ServidorResource {
     @GetMapping
     public ResponseEntity<Page<ServidorDTO>> findAll(
             @RequestParam(value = "nome", defaultValue = "") String nome,
-            @RequestParam(value = "matricula", defaultValue = "") int matricula,
+            @RequestParam(value = "matricula", defaultValue = "") String matricula,
             Pageable pageable) {
         Page<ServidorDTO> list = servidorService.findAllPaged(nome, matricula, pageable);
         return ResponseEntity.ok().body(list);
@@ -56,6 +60,16 @@ public class ServidorResource {
         }
         servidorService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/varios")
+    public ResponseEntity<String> excluirItensEmBloco(@RequestBody List<Long> ids) {
+        if (servidorService.verificarItensExistentes(ids)) {
+            servidorService.excluirItensEmBloco(ids);
+            return ResponseEntity.ok(DELETE_SUCCESS);
+        } else {
+            return ResponseEntity.status(NOT_FOUND).body(ID_DELETE_NOT_FOUND);
+        }
     }
 
 }

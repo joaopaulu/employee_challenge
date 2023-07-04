@@ -41,15 +41,17 @@ public class CategoriaService {
 
     @Transactional
     public CategoriaDTO insert(CategoriaDTO dto) {
-        Categoria entity = Mapper.factory(CategoriaMapper.class).dtoToEntity(dto);
+        Categoria entity = new Categoria();
+        copyDtoEntity(dto, entity);
         entity = categoriaRepository.save(entity);
-        return new CategoriaDTO(entity);
+        return Mapper.factory(CategoriaMapper.class).entityToDto(entity);
     }
 
     @Transactional
     public CategoriaDTO update(Long id, CategoriaDTO dto) {
         try {
-            Categoria entity = Mapper.factory(CategoriaMapper.class).dtoToEntity(dto);
+            Categoria entity = categoriaRepository.getReferenceById(id);
+            copyDtoEntity(dto, entity);
             entity = categoriaRepository.save(entity);
             return new CategoriaDTO(entity);
         } catch (EntityNotFoundException e) {
@@ -66,5 +68,9 @@ public class CategoriaService {
         } catch (DataIntegrityViolationException e) {
             throw new DataBaseException(INTEGRITY_VIOLATION);
         }
+    }
+
+    private void copyDtoEntity(CategoriaDTO dto, Categoria entity) {
+        entity.setDescricao(dto.getDescricao());
     }
 }

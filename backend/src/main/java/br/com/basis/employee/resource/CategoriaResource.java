@@ -14,7 +14,7 @@ import java.net.URI;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping(value = "/categories")
+@RequestMapping(value = "api/categories")
 public class CategoriaResource {
 
     private final CategoriaService categoriaService;
@@ -22,19 +22,19 @@ public class CategoriaResource {
 
     @GetMapping
     public ResponseEntity<Page<CategoriaDTO>> findAll(Pageable pageable) {
-        Page<CategoriaDTO> list =  categoriaService.findAllPaged(pageable);
+        Page<CategoriaDTO> list = categoriaService.findAllPaged(pageable);
         return ResponseEntity.ok().body(list);
     }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<CategoriaDTO> findById(@PathVariable Long id) {
-        CategoriaDTO dto =  categoriaService.findById(id);
+        CategoriaDTO dto = categoriaService.findById(id);
         return ResponseEntity.ok().body(dto);
     }
 
     @PostMapping
     public ResponseEntity<CategoriaDTO> insert(@RequestBody CategoriaDTO dto) {
-        dto =  categoriaService.insert(dto);
+        dto = categoriaService.insert(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}")
                 .buildAndExpand(dto.getId()).toUri();
         return ResponseEntity.created(uri).body(dto);
@@ -42,7 +42,7 @@ public class CategoriaResource {
 
     @PutMapping(value = "/{id}")
     public ResponseEntity<CategoriaDTO> update(@PathVariable Long id, @RequestBody CategoriaDTO dto) {
-        dto =  categoriaService.update(id, dto);
+        dto = categoriaService.update(id, dto);
         return ResponseEntity.ok().body(dto);
     }
 
