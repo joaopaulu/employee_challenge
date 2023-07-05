@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS tb_categoria (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  descricao VARCHAR(100) NOT NULL
+);
+
+

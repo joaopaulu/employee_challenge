@@ -1,0 +1,75 @@
+.crud-card {
+    margin-bottom: 20px;
+    padding: 2px;
+}
+
+.crud-card-top-container {
+    text-align: center;
+    padding: 16px 0;
+    border-bottom: 1px solid #e1e1e1;
+}
+
+.crud-card-top-container img {
+    width: 158px;
+    height: 158px;
+}
+
+.crud-card-bottom-container {
+    padding: 10px;
+}
+
+.crud-card-bottom-container span {
+    font-size: 16px;
+    color: #263238;
+}
+
+.crud-categories-container {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0 20px;
+}
+
+.crud-card-buttons-container {
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.crud-card-button {
+    font-weight: bold;
+    font-size: 14px;
+    letter-spacing: -0.015em;
+    border-radius: 10px;    
+    height: 40px;
+}
+
+.crud-card-button-first {
+    margin-right: 10px;
+}
+
+@media(min-width: 768px) {
+    .crud-card {
+        display: flex;
+        justify-content: space-between;
+        padding-bottom: 0;
+    }
+    .crud-card-top-container {
+        border-bottom: 0;        
+        border-right: 1px solid #e1e1e1;
+    }
+    .crud-card-buttons-container {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+   
+    .crud-card-button {
+        margin-top: 2px;
+    }
+    .crud-card-description {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        flex: 1;
+    }
+}
+
